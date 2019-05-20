@@ -378,7 +378,7 @@ G4VPhysicalVolume* B4DetectorConstruction::DefineVolumes()
     tower_height = 2000; //tower height 2500
     NbOfBarrel = 40; //(it was 52 before) number of towers in barrel right (left)
     NbOfEndcap = NbOfBarrel-1; //number of towers in endcap
-    NbOfZRot = 36; //number of Z to round around the center
+    NbOfZRot = 256; //number of Z to round around the center
     //PMTT = 1*mm;
     PMTT = 0*mm;
     fulltheta = 0;
@@ -587,14 +587,14 @@ G4VPhysicalVolume* B4DetectorConstruction::DefineVolumes()
     	G4ThreeVector c = dimB->GetOrigin(0);
     	G4ThreeVector c_new(c.getY(),-c.getZ(),c.getX()-(innerR+0.5*length));
         //placing towers in barrel R
-    	if (i>-100) new G4PVPlacement(rm,c_new,towerLogicalBR[i],name,phiBLog,false,i+1,false);
+    	new G4PVPlacement(rm,c_new,towerLogicalBR[i],name,phiBLog,false,i+1,false);
         
     	sprintf(name,"PMT%d",volnum);
         
     	dimB->Getpt(pt);
     	sprintf(name,"fiber%d",volnum);
         //VERY IMPORTANT TO PLACE FIBERS
-        //fiberBR(i,deltatheta_barrel[i]);
+        fiberBR(i,deltatheta_barrel[i]);
 
     	fulltheta = fulltheta+deltatheta_barrel[i];
     	volnum++;
@@ -622,11 +622,11 @@ G4VPhysicalVolume* B4DetectorConstruction::DefineVolumes()
     	rm->rotateX(thetaofcenter);
     	G4ThreeVector c = dimB->GetOrigin(0);
     	G4ThreeVector c_new(c.getY(),-c.getZ(),c.getX()-(innerR+0.5*length));
-    	if (i>-100) new G4PVPlacement(rm,c_new,towerLogicalBL[i],name,phiBLog,false,-i-1,false);
+    	new G4PVPlacement(rm,c_new,towerLogicalBL[i],name,phiBLog,false,-i-1,false);
        
     	dimB->Getpt(pt);
     	sprintf(name,"fiber%d",volnum);
-    	//fiberBL(i,deltatheta_barrel[i]);
+    	fiberBL(i,deltatheta_barrel[i]);
 
     	fulltheta = fulltheta+deltatheta_barrel[i];
     	volnum++;
@@ -647,7 +647,7 @@ G4VPhysicalVolume* B4DetectorConstruction::DefineVolumes()
     G4double thetaofcenter2=0;
     fulltheta = thetaE;
     
-    for(int i=0;i<NbOfEndcap-1;i++){
+    for(int i=0;i<NbOfEndcap-1;i++){//NbofEndcap-1
     	thetaofcenter=fulltheta-deltatheta_endcap[i]/2.;
         thetaofcenter2=thetaofcenter-deltatheta_endcap[i]/2.-deltatheta_endcap[i+1]/2.;
         
@@ -667,10 +667,10 @@ G4VPhysicalVolume* B4DetectorConstruction::DefineVolumes()
     	rm->rotateX(thetaofcenter);
     	G4ThreeVector c = dimE->GetOrigin(0);
     	G4ThreeVector c_new(-c.getY(),c.getZ(),c.getX()-(innerR+0.5*length));
-        if (i<35) new G4PVPlacement(rm,c_new,towerLogicalER[i],name,phiERLog,false,NbOfBarrel+i+1,false);
+        if(i<35)new G4PVPlacement(rm,c_new,towerLogicalER[i],name,phiERLog,false,NbOfBarrel+i+1,false);
         
         dimE->Getpt(pt);
-        if(i<-34) fiberER(i,deltatheta_endcap[i]);
+        fiberER(i,deltatheta_endcap[i]);
         fulltheta = fulltheta-deltatheta_endcap[i];
         volnum++;
 }
@@ -700,10 +700,10 @@ G4VPhysicalVolume* B4DetectorConstruction::DefineVolumes()
     	rm->rotateX(thetaofcenter);
     	G4ThreeVector c = dimE->GetOrigin(0);
     	G4ThreeVector c_new(c.getY(),-c.getZ(),c.getX()-(innerR+0.5*length));
-        if (i<35) new G4PVPlacement(rm,c_new,towerLogicalEL[i],name,phiELLog,false,-NbOfBarrel-i-1,false);
+        if(i<35)new G4PVPlacement(rm,c_new,towerLogicalEL[i],name,phiELLog,false,-NbOfBarrel-i-1,false);
         
         dimE->Getpt(pt);
-        if(i>300) fiberEL(i,deltatheta_endcap[i]);
+        fiberEL(i,deltatheta_endcap[i]);
         fulltheta = fulltheta-deltatheta_endcap[i];
         volnum++;
 }

@@ -52,8 +52,10 @@ B4aEventAction::B4aEventAction()
    //NofScintillationDetected(0),
    EnergyTot(0.),
    PrimaryParticleEnergy(0.),
-   VectorSignals(0.),
-   VectorSignalsCher(0.)
+   VectorSignalsR(0.),
+   VectorSignalsL(0.),
+   VectorSignalsCherR(0.),
+   VectorSignalsCherL(0.)
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -74,24 +76,38 @@ void B4aEventAction::BeginOfEventAction(const G4Event* /*event*/)
     EnergyTot = 0;
   
     int fNbOfBarrel = 40;
-    int fNbOfZRot = 36;
+    int fNbOfEndcap = 35;
+    int fNbOfZRot = 256;
     /*for(int i=0;i<64;i++){
     Signalfibre[i]=0;
     }*///only if you want to use SignalFibre[64]
-    for (int i=0;i<VectorSignals.size();i++){
-    VectorSignals.at(i)=0.;
+    for (int i=0;i<VectorSignalsR.size();i++){
+    VectorSignalsR.at(i)=0.;
     }
-    for (int i=0;i<VectorSignalsCher.size();i++){
-    VectorSignalsCher.at(i)=0.;
+    for (int i=0;i<VectorSignalsL.size();i++){
+    VectorSignalsL.at(i)=0.;
+    }
+    for (int i=0;i<VectorSignalsCherR.size();i++){
+    VectorSignalsCherR.at(i)=0.;
+    }
+    for (int i=0;i<VectorSignalsCherL.size();i++){
+    VectorSignalsCherL.at(i)=0.;
     }
     PrimaryParticleEnergy = 0;  
-    for(int i=0;i<fNbOfZRot*fNbOfBarrel;i++){
-        if(VectorSignals.size() < fNbOfZRot*fNbOfBarrel){
-    VectorSignals.push_back(0.);}}
+    for(int i=0;i<fNbOfZRot*(fNbOfBarrel+fNbOfEndcap);i++){
+        if(VectorSignalsR.size() < fNbOfZRot*(fNbOfBarrel+fNbOfEndcap)){
+    VectorSignalsR.push_back(0.);}}
+    for(int i=0;i<fNbOfZRot*(fNbOfBarrel+fNbOfEndcap);i++){
+        if(VectorSignalsL.size() < fNbOfZRot*(fNbOfBarrel+fNbOfEndcap)){
+    VectorSignalsL.push_back(0.);}}
     //VectorSignals.at(i)=0;}
-    for(int k=0;k<fNbOfZRot*fNbOfBarrel;k++){
-        if(VectorSignalsCher.size() < fNbOfZRot*fNbOfBarrel){
-    VectorSignalsCher.push_back(0.);}}
+    for(int k=0;k<fNbOfZRot*(fNbOfBarrel+fNbOfEndcap);k++){
+        if(VectorSignalsCherR.size() < fNbOfZRot*(fNbOfBarrel+fNbOfEndcap)){
+    VectorSignalsCherR.push_back(0.);}}
+    for(int k=0;k<fNbOfZRot*(fNbOfBarrel+fNbOfEndcap);k++){
+        if(VectorSignalsCherL.size() < fNbOfZRot*(fNbOfBarrel+fNbOfEndcap)){
+    VectorSignalsCherL.push_back(0.);}}
+
     //VectorSignalsCher[k]=0;}  
 }
 

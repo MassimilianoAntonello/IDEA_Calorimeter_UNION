@@ -59,13 +59,17 @@ class B4aEventAction : public G4UserEventAction
     void SavePrimaryEnergy(G4double primaryparticleenergy);
 
     //to save vectors in ntuple
-    std::vector<G4double>& GetVectorSignals() {return VectorSignals;} 
-    std::vector<G4double>& GetVectorSignalsCher() {return VectorSignalsCher;}
+    std::vector<G4double>& GetVectorSignalsR() {return VectorSignalsR;}
+    std::vector<G4double>& GetVectorSignalsL() {return VectorSignalsL;} 
+    std::vector<G4double>& GetVectorSignalsCherR() {return VectorSignalsCherR;}
+    std::vector<G4double>& GetVectorSignalsCherL() {return VectorSignalsCherL;}
 
     //to fill vectors
-    void AddVectorScinEnergy(G4double de, G4int tower, G4int slice); //fill vector of scintillating fibers with energy deposition
-    void AddVectorCherPE(G4int module, G4int fiber);//fill vector of cherenkov fibers with chernekov photoelectrons
-    
+    void AddVectorScinEnergyR(G4double de, G4int tower, G4int slice); //fill vector of scintillating fibers with energy deposition
+    void AddVectorScinEnergyL(G4double de, G4int tower, G4int slice); //fill vector left side
+    void AddVectorCherPER(G4int tower, G4int slice);//fill vector of cherenkov fibers with chernekov photoelectrons
+    void AddVectorCherPEL(G4int tower, G4int slice);
+
   private:
     G4double  Energyem; //Energy of em component
     G4double  EnergyScin; //Energy in scintillating fibers
@@ -77,8 +81,10 @@ class B4aEventAction : public G4UserEventAction
     G4String PrimaryParticleName; //Name of primary particle
     G4double PrimaryParticleEnergy;//Primary particle energy
 
-    std::vector<G4double> VectorSignals;//Vector filled with scintillating fibers energy deposits
-    std::vector<G4double> VectorSignalsCher;//Vector filled with Cherenkov fibers Cherenkov photoelectrons
+    std::vector<G4double> VectorSignalsR;//Vector filled with scintillating fibers energy deposits
+    std::vector<G4double> VectorSignalsL;//vector filled for left side
+    std::vector<G4double> VectorSignalsCherR;//Vector filled with Cherenkov fibers Cherenkov photoelectrons
+    std::vector<G4double> VectorSignalsCherL;//vector filled for left side
 };
 
 // inline functions
@@ -90,12 +96,22 @@ inline void B4aEventAction::SavePrimaryEnergy(G4double primaryparticleenergy){
   PrimaryParticleEnergy = primaryparticleenergy;
 }
 
-inline void B4aEventAction::AddVectorScinEnergy(G4double de, G4int tower, G4int slice) {
-    VectorSignals.at(tower+(slice*40)) += de;
+inline void B4aEventAction::AddVectorScinEnergyR(G4double de, G4int tower, G4int slice) {
+    VectorSignalsR.at(tower+(slice*75)) += de;
 }
 
-inline void B4aEventAction::AddVectorCherPE(G4int module, G4int fiber) {
-    VectorSignalsCher.at(64*(module-1)+fiber) = VectorSignalsCher.at(64*(module-1)+fiber) +1;
+inline void B4aEventAction::AddVectorScinEnergyL(G4double de, G4int tower, G4int slice) {
+    tower = -1*tower;
+    VectorSignalsL.at(tower+(slice*75)) += de;
+}
+
+inline void B4aEventAction::AddVectorCherPEL(G4int tower, G4int slice) {
+	tower = -1*tower;
+    VectorSignalsCherL.at(tower+(slice*75)) = VectorSignalsCherR.at(tower+(slice*75))+1;
+}
+
+inline void B4aEventAction::AddVectorCherPER(G4int tower, G4int slice) {
+    VectorSignalsCherR.at(tower+(slice*75)) = VectorSignalsCherR.at(tower+(slice*75))+1;
 }
 
 inline void B4aEventAction::Addem(G4double de) {
