@@ -94,18 +94,18 @@ void B4aEventAction::BeginOfEventAction(const G4Event* /*event*/)
     VectorSignalsCherL.at(i)=0.;
     }
     PrimaryParticleEnergy = 0;  
-    for(int i=0;i<fNbOfZRot*(fNbOfBarrel+fNbOfEndcap);i++){
-        if(VectorSignalsR.size() < fNbOfZRot*(fNbOfBarrel+fNbOfEndcap)){
+    for(int i=0;i<=fNbOfZRot*(fNbOfBarrel+fNbOfEndcap);i++){
+        if(VectorSignalsR.size() <= fNbOfZRot*(fNbOfBarrel+fNbOfEndcap)){
     VectorSignalsR.push_back(0.);}}
-    for(int i=0;i<fNbOfZRot*(fNbOfBarrel+fNbOfEndcap);i++){
-        if(VectorSignalsL.size() < fNbOfZRot*(fNbOfBarrel+fNbOfEndcap)){
+    for(int i=0;i<=fNbOfZRot*(fNbOfBarrel+fNbOfEndcap);i++){
+        if(VectorSignalsL.size() <= fNbOfZRot*(fNbOfBarrel+fNbOfEndcap)){
     VectorSignalsL.push_back(0.);}}
     //VectorSignals.at(i)=0;}
-    for(int k=0;k<fNbOfZRot*(fNbOfBarrel+fNbOfEndcap);k++){
-        if(VectorSignalsCherR.size() < fNbOfZRot*(fNbOfBarrel+fNbOfEndcap)){
+    for(int k=0;k<=fNbOfZRot*(fNbOfBarrel+fNbOfEndcap);k++){
+        if(VectorSignalsCherR.size() <= fNbOfZRot*(fNbOfBarrel+fNbOfEndcap)){
     VectorSignalsCherR.push_back(0.);}}
-    for(int k=0;k<fNbOfZRot*(fNbOfBarrel+fNbOfEndcap);k++){
-        if(VectorSignalsCherL.size() < fNbOfZRot*(fNbOfBarrel+fNbOfEndcap)){
+    for(int k=0;k<=fNbOfZRot*(fNbOfBarrel+fNbOfEndcap);k++){
+        if(VectorSignalsCherL.size() <= fNbOfZRot*(fNbOfBarrel+fNbOfEndcap)){
     VectorSignalsCherL.push_back(0.);}}
 
     //VectorSignalsCher[k]=0;}  

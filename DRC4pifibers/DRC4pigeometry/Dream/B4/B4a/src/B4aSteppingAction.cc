@@ -191,7 +191,7 @@ G4ProcessManager* OpManager =
              }*/
 
             if(strstr(Fiber.c_str(), C_fiber.c_str())){ //it's a Cherenkov fibre
-               G4double copynumbertower = step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber(2); 
+           G4double copynumbertower = step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber(2); 
     		   G4double copynumberslice = step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber(3); 
     		   if (copynumbertower>0){ //i'm in barrel right or endcap right
 	    		   fEventAction->AddVectorCherPER(copynumbertower, copynumberslice);}
