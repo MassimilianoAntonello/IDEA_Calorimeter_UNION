@@ -156,6 +156,8 @@ void B4RunAction::BeginOfRunAction(const G4Run* run/*run*/)
   analysisManager->CreateNtupleDColumn("VectorSignalsL",eventAction->GetVectorSignalsL());
   analysisManager->CreateNtupleDColumn("VectorSignalsCherR",eventAction->GetVectorSignalsCherR());
   analysisManager->CreateNtupleDColumn("VectorSignalsCherL",eventAction->GetVectorSignalsCherL());
+  analysisManager->CreateNtupleDColumn("VectorL", eventAction->GetVectorL());
+  analysisManager->CreateNtupleDColumn("VectorR", eventAction->GetVectorR());
   analysisManager->FinishNtuple();
   //analysisManager->CreateNtupleDColumn("Scinintheglass");//if you want scintillating photons
 }

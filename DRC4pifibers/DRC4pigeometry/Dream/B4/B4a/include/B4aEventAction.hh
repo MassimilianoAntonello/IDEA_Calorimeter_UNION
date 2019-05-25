@@ -63,12 +63,16 @@ class B4aEventAction : public G4UserEventAction
     std::vector<G4double>& GetVectorSignalsL() {return VectorSignalsL;} 
     std::vector<G4double>& GetVectorSignalsCherR() {return VectorSignalsCherR;}
     std::vector<G4double>& GetVectorSignalsCherL() {return VectorSignalsCherL;}
+    std::vector<G4double>& GetVectorR() {return VectorR;}
+    std::vector<G4double>& GetVectorL() {return VectorL;}
 
     //to fill vectors
     void AddVectorScinEnergyR(G4double de, G4int tower, G4int slice); //fill vector of scintillating fibers with energy deposition
     void AddVectorScinEnergyL(G4double de, G4int tower, G4int slice); //fill vector left side
     void AddVectorCherPER(G4int tower, G4int slice);//fill vector of cherenkov fibers with chernekov photoelectrons
     void AddVectorCherPEL(G4int tower, G4int slice);
+    void AddVectorR(G4double de, G4int tower, G4int slice);
+    void AddVectorL(G4double de, G4int tower, G4int slice);
 
   private:
     G4double  Energyem; //Energy of em component
@@ -85,9 +89,21 @@ class B4aEventAction : public G4UserEventAction
     std::vector<G4double> VectorSignalsL;//vector filled for left side
     std::vector<G4double> VectorSignalsCherR;//Vector filled with Cherenkov fibers Cherenkov photoelectrons
     std::vector<G4double> VectorSignalsCherL;//vector filled for left side
+    
+    std::vector<G4double> VectorR; //vector with energy deposited in towers right
+    std::vector<G4double> VectorL;
 };
 
 // inline functions
+inline void B4aEventAction::AddVectorR(G4double de, G4int tower, G4int slice){
+	VectorR.at(tower+(slice*75)) += de;	
+}
+
+inline void B4aEventAction::AddVectorL(G4double de, G4int tower, G4int slice){
+	tower = -1*tower;
+	VectorL.at(tower+(slice*75)) += de;
+}
+
 inline void B4aEventAction::SavePrimaryParticle(G4String name){
   PrimaryParticleName = name;
 }

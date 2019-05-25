@@ -55,7 +55,9 @@ B4aEventAction::B4aEventAction()
    VectorSignalsR(0.),
    VectorSignalsL(0.),
    VectorSignalsCherR(0.),
-   VectorSignalsCherL(0.)
+   VectorSignalsCherL(0.),
+   VectorR(0.),
+   VectorL(0.)
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -81,6 +83,15 @@ void B4aEventAction::BeginOfEventAction(const G4Event* /*event*/)
     /*for(int i=0;i<64;i++){
     Signalfibre[i]=0;
     }*///only if you want to use SignalFibre[64]
+
+    for (int i=0;i<VectorR.size();i++){
+    VectorR.at(i)=0.;
+    }
+    for (int i=0;i<VectorL.size();i++){
+    VectorL.at(i)=0.;
+    }
+    
+
     for (int i=0;i<VectorSignalsR.size();i++){
     VectorSignalsR.at(i)=0.;
     }
@@ -94,6 +105,14 @@ void B4aEventAction::BeginOfEventAction(const G4Event* /*event*/)
     VectorSignalsCherL.at(i)=0.;
     }
     PrimaryParticleEnergy = 0;  
+    
+    for(int i=0;i<=fNbOfZRot*(fNbOfBarrel+fNbOfEndcap);i++){
+        if(VectorR.size() <= fNbOfZRot*(fNbOfBarrel+fNbOfEndcap)){
+    VectorR.push_back(0.);}}
+    for(int i=0;i<=fNbOfZRot*(fNbOfBarrel+fNbOfEndcap);i++){
+        if(VectorL.size() <= fNbOfZRot*(fNbOfBarrel+fNbOfEndcap)){
+    VectorL.push_back(0.);}}
+    
     for(int i=0;i<=fNbOfZRot*(fNbOfBarrel+fNbOfEndcap);i++){
         if(VectorSignalsR.size() <= fNbOfZRot*(fNbOfBarrel+fNbOfEndcap)){
     VectorSignalsR.push_back(0.);}}

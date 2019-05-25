@@ -76,7 +76,20 @@ void B4aSteppingAction::UserSteppingAction(const G4Step* step)
   double k_B = 0.126; 
  
   if (PreStepVolume->GetName() != "World"){
-  	fEventAction->Addenergy(energydeposited);}
+  	fEventAction->Addenergy(energydeposited);
+  	if (PreStepVolume->GetLogicalVolume()->GetMaterial()->GetName() == "Copper"){
+  		G4double copynumbertower = step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber(); 
+    	G4double copynumberslice = step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber(1); 
+    	if (copynumbertower > 0){ //im in barrel right or endcap right
+     		//G4cout<<copynumbertower<<G4endl;
+     		fEventAction->AddVectorR(energydeposited,copynumbertower, copynumberslice);
+    	}
+  		if (copynumbertower < 0){ //im in barrel left or endcap left
+  	 		//G4cout<<copynumbertower<<G4endl;
+  	 		fEventAction->AddVectorL(energydeposited, copynumbertower, copynumberslice);
+        }
+    }
+  }
 
   if (PreStepVolume->GetName() != "World" ) {
     if (step->GetTrack()->GetDefinition()->GetParticleName() == "e-" || step->GetTrack()->GetDefinition()->GetParticleName() == "e+"){
@@ -128,9 +141,11 @@ void B4aSteppingAction::UserSteppingAction(const G4Step* step)
      
     if (copynumbertower > 0){ //im in barrel right or endcap right
      //G4cout<<"tower_number: "<<copynumbertower<<" slice_number: "<<copynumberslice<<G4endl; //to check numbering
-     fEventAction->AddVectorScinEnergyR(saturatedenergydeposited,copynumbertower, copynumberslice);} //energy deposited in any scintillating fiber (saturated)
+     fEventAction->AddVectorScinEnergyR(saturatedenergydeposited,copynumbertower, copynumberslice); //energy deposited in any scintillating fiber (saturated)
+	 fEventAction->AddVectorR(energydeposited, copynumbertower, copynumberslice);}  	
   	if (copynumbertower < 0){ //im in barrel left or endcap left
-  	 fEventAction->AddVectorScinEnergyL(saturatedenergydeposited, copynumbertower, copynumberslice);}
+  	 fEventAction->AddVectorScinEnergyL(saturatedenergydeposited, copynumbertower, copynumberslice);
+  	 fEventAction->AddVectorL(energydeposited, copynumbertower, copynumberslice);}
   }
 
   if ( strstr(Fiber.c_str(),C_fiber.c_str())){//it's a Cherenkov fiber
