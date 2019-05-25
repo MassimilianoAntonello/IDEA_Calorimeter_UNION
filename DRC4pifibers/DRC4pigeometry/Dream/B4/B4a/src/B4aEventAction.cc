@@ -77,7 +77,7 @@ void B4aEventAction::BeginOfEventAction(const G4Event* /*event*/)
   
     int fNbOfBarrel = 40;
     int fNbOfEndcap = 35;
-    int fNbOfZRot = 256;
+    int fNbOfZRot = 36;
     /*for(int i=0;i<64;i++){
     Signalfibre[i]=0;
     }*///only if you want to use SignalFibre[64]

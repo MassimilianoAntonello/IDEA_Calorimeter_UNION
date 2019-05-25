@@ -107,7 +107,7 @@ inline void B4aEventAction::AddVectorScinEnergyL(G4double de, G4int tower, G4int
 
 inline void B4aEventAction::AddVectorCherPEL(G4int tower, G4int slice) {
 	tower = -1*tower;
-    VectorSignalsCherL.at(tower+(slice*75)) = VectorSignalsCherR.at(tower+(slice*75))+1;
+    VectorSignalsCherL.at(tower+(slice*75)) = VectorSignalsCherL.at(tower+(slice*75))+1;
 }
 
 inline void B4aEventAction::AddVectorCherPER(G4int tower, G4int slice) {

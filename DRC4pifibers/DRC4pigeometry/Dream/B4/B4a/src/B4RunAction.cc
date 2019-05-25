@@ -39,6 +39,10 @@
 #include "stdlib.h"
 using namespace std;
 #include "B4aEventAction.hh"
+#include <sstream>
+
+#include "B4RunAction.hh"
+#include "B4Analysis.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -100,17 +104,22 @@ B4RunAction::~B4RunAction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B4RunAction::BeginOfRunAction(const G4Run* /*run*/)
+void B4RunAction::BeginOfRunAction(const G4Run* run/*run*/)
 { 
   //inform the runManager to save random number seed
   //G4RunManager::GetRunManager()->SetRandomNumberStore(true);
   
   // Get analysis manager
   G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+  G4cout<< "run " <<run->GetRunID()<<G4endl;
 
+  std::stringstream ss;
+  std::string myrun;
+  ss<<run->GetRunID();
+  ss>>myrun;
   // Open an output file
   //
-  G4String fileName = "B4";
+  G4String fileName = myrun;
   analysisManager->OpenFile(fileName);
 
   // G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
